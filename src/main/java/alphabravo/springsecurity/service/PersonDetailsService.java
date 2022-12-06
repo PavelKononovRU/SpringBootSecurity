@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class PersonDetailsService implements UserDetailsService, PersonDetails {
     private final PersonRepo personRepo;
     private final PasswordEncoder passwordEncoder;
@@ -33,6 +32,7 @@ public class PersonDetailsService implements UserDetailsService, PersonDetails {
     }
 
     @Override
+    @Transactional
     public void toUpdatePerson(long id, Person updatedPerson) {
         Person personForUpdate = personRepo.findById(id).orElse(new Person());
         personForUpdate.setId(updatedPerson.getId());
@@ -63,6 +63,6 @@ public class PersonDetailsService implements UserDetailsService, PersonDetails {
 
     @Override
     public List<Person> allPersons() {
-        return personRepo.findAll().stream().toList();
+        return personRepo.findAll();
     }
 }
